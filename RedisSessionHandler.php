@@ -21,8 +21,6 @@ class RedisSessionHandler extends \SessionHandler
 
     private $cookieName = null;
 
-    private $config = [];
-
     /**
      * RedisSessionHandler constructor.
      * @param $config =[
@@ -39,32 +37,27 @@ class RedisSessionHandler extends \SessionHandler
         if (false === extension_loaded('redis')) {
             throw new \RuntimeException("the 'redis' extension is needed in order to use this session handler");
         }
-        if($config){
-            $this->config = $config;
-        }
-        $this->redis = new \Redis();
-
         $this->lock_ttl = (int) ini_get('max_execution_time');
         $this->session_ttl = (int) ini_get('session.gc_maxlifetime');
-
+        if(empty($config['cookiesName'])){
+            $config['cookiesName'] = "php_session";
+        }
         $this->cookieName = $config['cookiesName'];
 
+        $this->redis = new \Redis();
         if (false === $this->redis->connect($config['host'], $config['port'], $config['timeout'])) {
             throw new \RuntimeException("the 'redis' cant't  to connection");
         }
         if(!empty($config['auth'])){
             $this->redis->auth($config['auth']);
         }
-
         if(!empty($config['database'])){
             $this->redis->select($config['database']);
         }
-
         if(empty($config['prefix'])){
             $config['prefix'] = 'redis_session:';
         }
         $this->redis->setOption(\Redis::OPT_PREFIX, $config['prefix']);
-
     }
 
     /**
