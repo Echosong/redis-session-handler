@@ -9,7 +9,7 @@
 
   composer require echosong/redis-session
  
-## Use
+## Basic Usage
     ```php
 
     $config =[
