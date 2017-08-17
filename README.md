@@ -7,7 +7,7 @@
   
 ## Composer package
 
-  composer require echosong/redisSession
+  composer require echosong/redis-session
  
 ## Use
     ```php
