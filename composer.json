@@ -7,6 +7,6 @@
     "ext-redis": "*"
   },
   "autoload": {
-    "psr-4": {"Echosong\\RedisSession\\": ""}
+    "psr-4": {"Echosong\\redis-session\\": ""}
   }
 }
