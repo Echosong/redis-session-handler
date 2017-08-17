@@ -1,0 +1,12 @@
+{
+  "name": "Echosong/RedisSession",
+  "description": "An simple Redis session handler",
+  "license": "MIT",
+  "require": {
+    "php": ">=5.6",
+    "ext-redis": "*"
+  },
+  "autoload": {
+    "psr-4": {"Echosong\\RedisSession\\": ""}
+  }
+}
