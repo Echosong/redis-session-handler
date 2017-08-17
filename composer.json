@@ -1,5 +1,5 @@
 {
-  "name": "Echosong/RedisSession",
+  "name": "Echosong/redis-session",
   "description": "An simple Redis session handler",
   "license": "MIT",
   "require": {
