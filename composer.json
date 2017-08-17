@@ -1,5 +1,5 @@
 {
-  "name": "Echosong/redis-session",
+  "name": "echosong/redis-session",
   "description": "An simple Redis session handler",
   "license": "MIT",
   "require": {
@@ -7,6 +7,6 @@
     "ext-redis": "*"
   },
   "autoload": {
-    "psr-4": {"Echosong\\redis-session\\": ""}
+    "psr-4": {"Echosong\\RedisSession\\": ""}
   }
 }
