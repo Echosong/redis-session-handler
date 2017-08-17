@@ -29,7 +29,7 @@ class RedisSessionHandler extends \SessionHandler
      *  'timeout'=>2,
      *  'auth'=>'****',
      *  'database'=>2,
-     *   'prefix' => 'redis_session:'
+     *   'prefix' => 'redis_session:',
      * ]
      */
     public function __construct($config)
@@ -39,10 +39,6 @@ class RedisSessionHandler extends \SessionHandler
         }
         $this->lock_ttl = (int) ini_get('max_execution_time');
         $this->session_ttl = (int) ini_get('session.gc_maxlifetime');
-        if(empty($config['cookiesName'])){
-            $config['cookiesName'] = "php_session";
-        }
-        $this->cookieName = $config['cookiesName'];
 
         $this->redis = new \Redis();
         if (false === $this->redis->connect($config['host'], $config['port'], $config['timeout'])) {
@@ -65,6 +61,7 @@ class RedisSessionHandler extends \SessionHandler
      */
     public function open($save_path, $name)
     {
+        $this->cookieName =$name;
         return true;
     }
 
@@ -96,8 +93,8 @@ class RedisSessionHandler extends \SessionHandler
         if ($this->isNew($session_id)) {
             return '';
         }
-
         return $this->redis->get($session_id);
+
     }
 
     /**
