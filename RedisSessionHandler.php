@@ -2,6 +2,13 @@
 
 namespace Echosong\RedisSession;
 
+/**
+ * redis-session Class
+ * @package redis-session
+ * @author  echosong <313690636@qq.com>
+ * @link    https://github.com/echosong/
+ */
+
 class RedisSessionHandler extends \SessionHandler
 {
 
@@ -37,20 +44,20 @@ class RedisSessionHandler extends \SessionHandler
         if (false === extension_loaded('redis')) {
             throw new \RuntimeException("the 'redis' extension is needed in order to use this session handler");
         }
-        $this->lock_ttl = (int) ini_get('max_execution_time');
-        $this->session_ttl = (int) ini_get('session.gc_maxlifetime');
+        $this->lock_ttl = (int)ini_get('max_execution_time');
+        $this->session_ttl = (int)ini_get('session.gc_maxlifetime');
 
         $this->redis = new \Redis();
         if (false === $this->redis->connect($config['host'], $config['port'], $config['timeout'])) {
             throw new \RuntimeException("the 'redis' cant't  to connection");
         }
-        if(!empty($config['auth'])){
+        if (!empty($config['auth'])) {
             $this->redis->auth($config['auth']);
         }
-        if(!empty($config['database'])){
+        if (!empty($config['database'])) {
             $this->redis->select($config['database']);
         }
-        if(empty($config['prefix'])){
+        if (empty($config['prefix'])) {
             $config['prefix'] = 'redis_session:';
         }
         $this->redis->setOption(\Redis::OPT_PREFIX, $config['prefix']);
@@ -61,7 +68,7 @@ class RedisSessionHandler extends \SessionHandler
      */
     public function open($save_path, $name)
     {
-        $this->cookieName =$name;
+        $this->cookieName = $name;
         return true;
     }
 
@@ -85,7 +92,8 @@ class RedisSessionHandler extends \SessionHandler
         if ($this->mustRegenerate($session_id)) {
             session_id($session_id = $this->create_sid());
             $params = session_get_cookie_params();
-            setcookie($this->cookieName, $session_id, time() + $params['lifetime'], $params['path'], $params['domain'], $params['secure'], $params['httponly']);
+            setcookie($this->cookieName, $session_id, time() + $params['lifetime'], $params['path'], $params['domain'],
+                $params['secure'], $params['httponly']);
         }
 
         $this->acquireLockOn($session_id);
